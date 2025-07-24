@@ -47,6 +47,11 @@ focus.
 Persistence is _required_. While SQLite is officially supported and is used in tests, it is highly recommended that
 you use Postgres via docker, simply by executing `docker compose up -d`.
 
+### Configuration
+
+Set `BEEBOT_DOCUMENT_SUMMARY_THRESHOLD` to control when long documents are automatically summarized. The value
+represents the minimum length before summarization occurs. A value of `0` disables summarization entirely.
+
 ## Running
 
 ### CLI

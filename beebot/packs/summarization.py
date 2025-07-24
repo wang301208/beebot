@@ -1,3 +1,8 @@
+from typing import Awaitable, Callable
+
+from beebot.body.llm import call_llm
+
+
 SUMMARIZATION_TEMPLATE = """Make the following text more concise, ensuring the final output is no more than {filter_threshold} characters long.
 
 Simplify the language used. Replace long phrases with shorter synonyms, remove unnecessary adverbs and adjectives, or rephrase sentences to make them more concise.
@@ -14,8 +19,10 @@ Retain key details such as file names, IDs, people, places, and important events
 
 
 def _filter_long_documents(self, document: str) -> str:
-    # TODO: Configurable limit or like configurable turn it off?
-    if len(document) > 1000:
+    """Summarize text when it exceeds the configured threshold."""
+
+    threshold = getattr(self.body.config, "document_summary_threshold", 0)
+    if threshold and len(document) > threshold:
         summary_prompt = SUMMARIZATION_TEMPLATE.format(
             long_text=document[:8000], filter_threshold=self.filter_threshold
         )

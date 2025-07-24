@@ -1,6 +1,6 @@
 from langchain.prompts import SystemMessagePromptTemplate
 
-TEMPLATE = """Make the following text more concise, ensuring the final output is no more than 2000 characters long.
+TEMPLATE = """Make the following text more concise, ensuring the final output is no more than {filter_threshold} characters long.
 
 Simplify the language used. Replace long phrases with shorter synonyms, remove unnecessary adverbs and adjectives, or rephrase sentences to make them more concise.
  
@@ -15,5 +15,8 @@ Retain key details such as file names, IDs, people, places, and important events
 {long_text}"""
 
 
-def summarization_prompt_template() -> SystemMessagePromptTemplate:
-    return SystemMessagePromptTemplate.from_template(TEMPLATE)
+def summarization_prompt_template(
+    filter_threshold: int = 2000,
+) -> SystemMessagePromptTemplate:
+    template = TEMPLATE.format(filter_threshold=filter_threshold)
+    return SystemMessagePromptTemplate.from_template(template)
