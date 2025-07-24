@@ -8,10 +8,14 @@ if TYPE_CHECKING:
 
 
 async def filter_long_documents(body: "Body", document: str) -> str:
-    # TODO: Configurable limit or like configurable turn it off?
-    if len(document) > 1000:
+    """Summarize documents that exceed the configured threshold."""
+
+    threshold = body.config.document_summary_threshold
+    if threshold and len(document) > threshold:
         summary_prompt = (
-            summarization_prompt_template().format(long_text=document[:8000]).content
+            summarization_prompt_template(threshold)
+            .format(long_text=document[:8000])
+            .content
         )
         summarization = await call_llm(body, summary_prompt)
         return f"The response was summarized as: {summarization.text}"

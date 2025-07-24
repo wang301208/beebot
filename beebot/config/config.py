@@ -34,6 +34,7 @@ class Config(BaseSettings):
     restrict_code_execution: bool = False
     process_timeout: int = 30
     pack_config: PackConfig = None
+    document_summary_threshold: int = 1000
 
     _global_config: ClassVar["Config"] = None
 
@@ -46,6 +47,7 @@ class Config(BaseSettings):
             "log_level": {"env": "log_level"},
             "openai_api_base": {"env": "openai_api_base"},
             "openai_api_key": {"env": "openai_api_key"},
+            "document_summary_threshold": {"env": "document_summary_threshold"},
         }
 
     def __init__(self, **kwargs) -> "Config":
